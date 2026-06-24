@@ -216,7 +216,51 @@ pod_nameがPod名となっているデータが挿入されていることを確
 */
 ```
 
-## 4. Databricks 連携のサンプル
+## 4. Databricks を準備する
+
+今回は、Azure Databricks を使って TiDB Cloud のデータを可視化します。Azure Databricksは、Azure Portal から作成できます。以下のリンクから Azure Portal にアクセスして、Databricks ワークスペースを作成してください。
+
+- [Azure Portal](https://portal.azure.com/#home)
+
+ワークスペースを作成したら、次に進みます。
+
+## 5. Databricks で TiDB Cloud に接続する
+
+TiDBはMySQL互換のデータベースですので、Databricks では MySQL 用の JDBC ドライバを使用して接続できます。
+これから実際に Databricks で TiDB Cloud に接続する手順を説明します。
+
+おおまかな手順は以下の通りです。
+
+1.`データ取り込み`から`MySQL`を選択
+2.`MySQLからデータを取り込む`で、TiDB Cloud の接続情報を入力
+3.接続の作成
+  - 接続名
+  - User
+  - Password
+  - Host
+  - Port
+  - TrustServerCertificate
+    - チェックを入れる
+  - UserProvidedServerCertificate
+
+### 5.1 TiDB CloudとDatabricksの接続
+
+### 5.2 Databricksのノートブックを作成
+
+クエリをノートブックで実行します。
+
+```sql
+%sql
+SELECT * FROM `<スペース名>`.`default`.`sensor_events`;
+```
+
+実行結果
+
+## 6. Databricksのノートブックを活用
+
+ここからは、Databricks のノートブックを使って、TiDB Cloud のデータをPythonで処理する方法を説明します。Databricks のノートブックでは、SQL クエリを実行してデータを取得し、Python で分析や可視化を行うことができます。
+
+## 6. Databricks 連携のサンプル
 
 Databricks では、TiDB から読み込んだデータを SQL で確認できます。
 
@@ -227,3 +271,5 @@ SELECT * FROM sensor_events LIMIT 10;
 ## 5. 参考
 
 - [pytidb - GitHub](https://github.com/pingcap/pytidb)
+  - [https://docs.pingcap.com/ja/ai/connect/](https://docs.pingcap.com/ja/ai/connect/)
+- [Analytics on TiDB Cloud with Databricks](https://www.pingcap.com/blog/analytics-on-tidb-cloud-with-databricks/)
