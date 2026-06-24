@@ -78,15 +78,71 @@ BATCH_SIZE=10
 
 ### 1.3 実行
 
+スクリプトを実行して、TiDB Cloud にデータを挿入します。データは `sensor_events` テーブルに挿入されます。テーブルが存在しない場合は、スクリプトが自動的に作成します。
+
 ```bash
-python3 src/tidb_loader.py
+uv run python src/tidb_loader.py
+```
+
+実行結果
+
+```text
+Inserted 10 rows into TiDB from local
+```
+
+TiDB Cloud上で確認する場合はSQL Editorを使って以下のSQLを実行してください。
+
+```sql
+USE test;
+SELECT
+  `id`,
+  `pod_name`,
+  `event_time`,
+  `metric_value`,
+  `payload`
+FROM
+  `sensor_events`
 ```
 
 ## 2. Docker での実行
 
+ローカル実行できたら、次に Docker で実行します。Dockerfile を使って Docker イメージを作成し、コンテナを起動してデータを挿入します。今回はRancher Desktopを使っていますので起動を忘れないようにしてください。
+
+まずは、Dockerfile を使って Docker イメージを作成します。
+
 ```bash
 docker build -t tidb-loader:latest .
+```
+
+次に、作成した Docker イメージを使ってコンテナを起動し、データを挿入します。`.env` ファイルを使って環境変数を設定してください。
+
+```bash
 docker run --rm --env-file .env tidb-loader:latest
+```
+
+実行結果
+
+```text
+Inserted 10 rows into TiDB from 6352e89a139c
+```
+
+実行したコンテナのIDは `6352e89a139c` です。このIDがpod_nameとして、TiDB Cloudに挿入されたデータの `pod_name` カラムに記録されます。TiDB Cloud上で確認する場合はSQL Editorを使って以下のSQLを実行してください。
+
+```sql
+USE test;
+SELECT
+  `id`,
+  `pod_name`,
+  `event_time`,
+  `metric_value`,
+  `payload`
+FROM
+  `sensor_events`
+WHERE
+  `pod_name` = '6352e89a139c'
+/*
+pod_nameがコンテナIDとなっているデータが挿入されていることを確認してください
+*/
 ```
 
 ## 3. Kubernetes での実行
