@@ -1,0 +1,13 @@
+[project]
+name = "tibricks-tidb-loader"
+version = "0.1.0"
+description = "Sample TiDB loader for Kubernetes and Docker PoC"
+requires-python = ">=3.11"
+dependencies = [
+  "pymysql>=1.1.0",
+  "python-dotenv>=1.0.0",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"

@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tidb-loader-pod
+  labels:
+    app: tidb-loader
+spec:
+  restartPolicy: Never
+  containers:
+    - name: tidb-loader
+      image: tidb-loader:latest
+      imagePullPolicy: IfNotPresent
+      env:
+        - name: TIDB_HOST
+          value: "your-tidb-host"
+        - name: TIDB_PORT
+          value: "4000"
+        - name: TIDB_USER
+          value: "root"
+        - name: TIDB_PASSWORD
+          value: "your-tidb-password"
+        - name: TIDB_DATABASE
+          value: "sample"
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: BATCH_SIZE
+          value: "10"
