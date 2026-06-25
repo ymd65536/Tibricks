@@ -404,6 +404,7 @@ export MNEMO_TENANT_ID="your-tenant-id"
 
 ### 7.3. mnemo CLIを使ってメモリを参照する
 
+記録されたメモリを参照するには、以下のコマンドを実行してください。`--tags`オプションでタグを指定することで、特定のタグに関連するメモリを検索できます。実際に次のコマンドを実行して、`tech-stack`タグに関連するメモリを検索します。
 
 ```bash
 mnemo memory search --tags "tech-stack" --state "active"
@@ -437,8 +438,23 @@ mnemo memory search --tags "tech-stack" --state "active"
 }
 ```
 
-## 5. 参考
+送信したメモリが返ってきました。以上のようにAgentがmem9を扱うことでTiDB CloudのデータをAIが活用できるようになります。
+
+## 8. TiDB CloudのSQL Editorでmem9のデータを確認する
+
+次に、TiDB Cloudのデータを確認します。mem9のデータは、`memories`テーブルに格納されていますが
+内部的には他のクラスタに保存されており、ホスト名が異なるため、TiDB CloudのSQL Editorから直接参照することはできません。そこで、mem9のデータを確認するために今回はDatabricksを使って、TiDB Cloudのデータを可視化します。Databricksでは、SQLクエリを実行してデータを取得し、Pythonで分析や可視化を行うことができます。
+
+まずは、TiDB CloudのSQL Editorからmem9のデータを確認します。ノートブックで以下のSQLを実行して保存先を確認します。
+
+```sql
+USE test;
+SELECT * FROM `test`.`tenants` LIMIT 100;
+```
+
+## 参考
 
 - [pytidb - GitHub](https://github.com/pingcap/pytidb)
   - [https://docs.pingcap.com/ja/ai/connect/](https://docs.pingcap.com/ja/ai/connect/)
 - [Analytics on TiDB Cloud with Databricks](https://www.pingcap.com/blog/analytics-on-tidb-cloud-with-databricks/)
+- [mem9](https://github.com/mem9-ai/mem9/tree/main/cli)
