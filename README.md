@@ -335,6 +335,8 @@ gh repo clone mem9-ai/mem9 & cd mem9
 
 ### 6.3 mem9の起動
 
+mem9を起動するには、以下のコマンドを実行してください。`MNEMO_DSN`には、TiDB Cloud の接続情報を設定してください。
+
 ```bash
 MNEMO_DSN="user:password@tcp(host:4000)/test?parseTime=true&tls=true" go run ./cmd/mnemo-server
 ```
@@ -345,6 +347,24 @@ MNEMO_DSN="user:password@tcp(host:4000)/test?parseTime=true&tls=true" go run ./c
 {"time":"2026-06-26T00:34:45.529312+09:00","level":"INFO","source":{"function":"main.main","file":"/Users/{ユーザー名}/Desktop/mem9/server/cmd/mnemo-server/main.go","line":341},"msg":"starting mnemo server","port":"8080"}
 {"time":"2026-06-26T00:34:45.529672+09:00","level":"INFO","source":{"function":"github.com/qiffang/mnemos/server/internal/service.(*UploadWorker).Run","file":"/Users/{ユーザー名}/Desktop/mem9/server/internal/service/upload.go","line":167},"msg":"upload worker started"}
 ```
+
+これでmem9のAPIがセルフホストで起動しました。
+
+## 7. mem9のAPIを使う
+
+mem9では、プロジェクト単位でメモリ空間が分けられ、実行にはIDが必要となります。まずはIDを取得するために、mem9のAPIにPOSTリクエストを送信してください。以下のコマンドを実行します。
+
+```bash
+curl -X POST http://localhost:8080/v1alpha1/mem9s
+```
+
+実行結果
+
+```text
+{"id":"XXXXXXX-XXXXXX"}
+```
+
+このIDを使って、mem9のAPIに対してデータを送信することができます。
 
 ## 5. 参考
 
