@@ -303,6 +303,15 @@ SELECT * FROM `<スペース名>`.`default`.`sensor_events`;
 
 ここからは、Databricks のノートブックを使って、TiDB Cloud のデータをPythonで処理する方法を説明します。Databricks のノートブックでは、SQL クエリを実行してデータを取得し、Python で分析や可視化を行うことができます。
 
+今回はSparkを使ってデータを表示します。実行するコードは以下の通りです。
+
+```python
+df = spark.read.table("<ワークスペース名>.default.sensor_events")
+display(df)
+```
+
+Databricksではノートブックで2行のコードを実行するだけで、TiDB Cloud のデータを表示できます。
+
 ## 6. Databricks 連携のサンプル
 
 Databricks では、TiDB から読み込んだデータを SQL で確認できます。
