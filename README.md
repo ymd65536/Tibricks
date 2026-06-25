@@ -314,12 +314,36 @@ Databricksではノートブックで2行のコードを実行するだけで、
 
 ## 6.mem9を使う
 
+### 6.1 セットアップ
+
 ```bash
 gh repo clone mem9-ai/mem9 & cd mem9
 ```
 
+### 6.2 テーブルの作成
+
+以下のSQLをデータベース名`test`の中で実行してTiDB Cloud にテーブルを作成してください。
+
+- [https://github.com/mem9-ai/mem9/blob/main/server/schema.sql](https://github.com/mem9-ai/mem9/blob/main/server/schema.sql)
+
+実行方法について補足です。TiDB CloudのSQL Editorを使うことでSQLを実行できますが
+`schema.sql`で定義されているSQLを一括で実行する場合は`schema.sql`の中身をコピーしてSQL Editorに貼り付け、`全選択`して実行してください。
+
+具体的には以下のとおりです。（画像）
+
+![mem9.1.png](./img/mem9.1.png)
+
+### 6.3 mem9の起動
+
 ```bash
 MNEMO_DSN="user:password@tcp(host:4000)/test?parseTime=true&tls=true" go run ./cmd/mnemo-server
+```
+
+実行結果
+
+```text
+{"time":"2026-06-26T00:34:45.529312+09:00","level":"INFO","source":{"function":"main.main","file":"/Users/{ユーザー名}/Desktop/mem9/server/cmd/mnemo-server/main.go","line":341},"msg":"starting mnemo server","port":"8080"}
+{"time":"2026-06-26T00:34:45.529672+09:00","level":"INFO","source":{"function":"github.com/qiffang/mnemos/server/internal/service.(*UploadWorker).Run","file":"/Users/{ユーザー名}/Desktop/mem9/server/internal/service/upload.go","line":167},"msg":"upload worker started"}
 ```
 
 ## 5. 参考
