@@ -352,7 +352,11 @@ MNEMO_DSN="user:password@tcp(host:4000)/test?parseTime=true&tls=true" go run ./c
 
 ## 7. mem9のAPIを使う
 
-mem9では、プロジェクト単位でメモリ空間が分けられ、実行にはIDが必要となります。まずはIDを取得するために、mem9のAPIにPOSTリクエストを送信してください。以下のコマンドを実行します。
+mem9では、プロジェクト単位でメモリ空間が分けられ、実行にはIDが必要となります。また、メモリーの作成および参照にはCLIが利用できます。この章では、mem9のAPIを使ってデータを送信する方法とCLIを使ってデータを参照する方法を説明します。
+
+### 7.1. IDの取得
+
+まずはIDを取得するために、mem9のAPIにPOSTリクエストを送信してください。以下のコマンドを実行します。
 
 ```bash
 curl -X POST http://localhost:8080/v1alpha1/mem9s
@@ -364,7 +368,74 @@ curl -X POST http://localhost:8080/v1alpha1/mem9s
 {"id":"XXXXXXX-XXXXXX"}
 ```
 
-このIDを使って、mem9のAPIに対してデータを送信することができます。
+このIDを使って、mem9のAPIに対してデータを送信できます。
+
+### 7.2. mnemo CLIを使ってメモリを作成する
+
+mnemo CLIを使うことで、mem9のAPIに対してデータを送信したり、データを参照したりできます。mnemo CLIは、mem9のリポジトリに含まれています。以下のコマンドでmnemo CLIをインストールしてください。
+
+- [mnemo CLI](https://github.com/mem9-ai/mem9/tree/main/cli)
+
+インストール後、以下のコマンドを実行して、mem9のAPIにデータを送信します。まずは環境変数を設定します。
+`your-tenant-id`には、先ほど取得したIDを設定してください。
+
+```bash
+export MNEMO_API_URL="http://localhost:8080"
+export MNEMO_AGENT_ID="cli-agent"
+export MNEMO_TENANT_ID="your-tenant-id"
+```
+
+環境変数を設定したらコマンドを実行して、mem9のAPIにデータを送信します。
+
+```bash
+# cd cli
+./mnemo memory create "Project uses PostgreSQL 15" --tags "tech-stack,database"
+```
+
+実行結果
+
+```txt
+{
+  "status": "accepted"
+}
+```
+
+`accepted`が返ってきたら、mem9のAPIにデータが受信されたことを意味します。これでメモリーに記録されました。
+
+### 7.3. mnemo CLIを使ってメモリを参照する
+
+
+```bash
+mnemo memory search --tags "tech-stack" --state "active"
+```
+
+実行結果
+
+```txt
+{
+  "memories": [
+    {
+      "id": "XXXXXXX-XXXXXX",
+      "content": "Project uses PostgreSQL 15",
+      "source": "cli-agent",
+      "tags": [
+        "tech-stack",
+        "database"
+      ],
+      "version": 1,
+      "updated_by": "cli-agent",
+      "created_at": "2026-06-25T16:40:49Z",
+      "updated_at": "2026-06-25T16:40:49Z",
+      "memory_type": "insight",
+      "state": "active",
+      "agent_id": "cli-agent"
+    }
+  ],
+  "total": 1,
+  "limit": 50,
+  "offset": 0
+}
+```
 
 ## 5. 参考
 
