@@ -314,6 +314,14 @@ Databricksではノートブックで2行のコードを実行するだけで、
 
 ## 6.mem9を使う
 
+```bash
+gh repo clone mem9-ai/mem9 & cd mem9
+```
+
+```bash
+MNEMO_DSN="user:password@tcp(host:4000)/test?parseTime=true&tls=true" go run ./cmd/mnemo-server
+```
+
 ## 5. 参考
 
 - [pytidb - GitHub](https://github.com/pingcap/pytidb)
