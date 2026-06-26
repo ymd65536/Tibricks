@@ -440,17 +440,41 @@ mnemo memory search --tags "tech-stack" --state "active"
 
 送信したメモリが返ってきました。以上のようにAgentがmem9を扱うことでTiDB CloudのデータをAIが活用できるようになります。
 
-## 8. TiDB CloudのSQL Editorでmem9のデータを確認する
+## 8. Databricksでmem9のデータを確認する
 
-次に、TiDB Cloudのデータを確認します。mem9のデータは、`memories`テーブルに格納されていますが
-内部的には他のクラスタに保存されており、ホスト名が異なるため、TiDB CloudのSQL Editorから直接参照することはできません。そこで、mem9のデータを確認するために今回はDatabricksを使って、TiDB Cloudのデータを可視化します。Databricksでは、SQLクエリを実行してデータを取得し、Pythonで分析や可視化を行うことができます。
+次に、TiDB Cloudのデータを確認します。mem9のデータは、`memories`テーブルに格納されています。
+そこで、mem9のデータを確認するために今回はDatabricksを使って、TiDB Cloudのデータを可視化します。
 
-まずは、TiDB CloudのSQL Editorからmem9のデータを確認します。ノートブックで以下のSQLを実行して保存先を確認します。
+実際にやってみましょう。まずは、TiDB CloudのSQL Editorからmem9のデータを確認します。ノートブックで以下のSQLを実行して保存先を確認します。
 
 ```sql
 USE test;
-SELECT * FROM `test`.`tenants` LIMIT 100;
+SELECT 
+  `id`,
+  `name`,
+  `db_host`,
+  `db_port`,
+  `db_user`,
+  `db_password`,
+  `db_name`
+FROM `test`.`tenants` LIMIT 1;
 ```
+
+クエリで出力された内容をもとにDatabricksの接続を作成してください。
+※接続の作成方法は、前述の「5. Databricks で TiDB Cloud に接続する」を参照してください。
+
+### 8.1 Databricksでmem9のデータを確認する
+
+新しく作成した接続を使って、Databricksのノートブックでmem9のデータを確認します。以下のSQLを実行してください。
+
+```sql
+%sql
+SELECT * FROM `<ワークスペース名>`.`default`.`memories`;
+```
+
+実行結果
+
+![databricks_mem9.png](/images/tidb/databricks_mem9.png)
 
 ## 参考
 
