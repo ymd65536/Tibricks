@@ -465,7 +465,7 @@ FROM `test`.`tenants` LIMIT 1;
 
 ### 8.1 Databricksでmem9のデータを確認する
 
-新しく作成した接続を使って、Databricksのノートブックでmem9のデータを確認します。以下のSQLを実行してください。
+新しく作成した接続を使って、Databricksのノートブックでmem9のデータを確認します。以下のSQLをノートブックで実行してください。
 
 ```sql
 %sql
@@ -475,6 +475,20 @@ SELECT * FROM `<ワークスペース名>`.`default`.`memories`;
 実行結果
 
 ![databricks_mem9.png](/images/tidb/databricks_mem9.png)
+
+以上のように、Databricksでmem9のデータを確認することができました。これでTiDB CloudのデータをDatabricksで可視化し、mem9の長期記憶がどのように記録されているかを確認することができました。
+
+他にもテーブルがありますので、気になる方は試してみると良いでしょう。
+
+## まとめ
+
+今回は、Kubernetesの複数PodからTiDB Cloudにデータを投入し、Databricksを使ってTiDB Cloudのデータを可視化する手順を説明しました。この手順を応用することで、Databricksのノートブックを使ってTiDB CloudのデータをPythonで処理することも可能です。
+
+検証を通じてmem9とTiDB Cloud、そしてDatabricksによってAIエージェントがどのようにして記憶を保存して引き継げるのかをチェックできる環境が構築できました。
+
+この環境を利用することでAIエージェントのための長期記憶を管理できるため、AIエージェントの性能向上やより高度なタスクの実行が可能になるかなと考えています。また、Databricksのエコシステムにも触れることができるため、LLMOpsに一役買うこともあるでしょう。
+
+より高度なAIエージェントを構築するためにも長期記憶の管理は重要な要素です。今回のPoCを通じて、AIエージェントの長期記憶の管理方法について理解を深めることができました。
 
 ## 参考
 
