@@ -72,7 +72,7 @@ TIDB_HOST=your-tidb-host
 TIDB_PORT=4000
 TIDB_USER=root
 TIDB_PASSWORD=your-tidb-password
-TIDB_DATABASE=sample
+TIDB_DATABASE=test
 BATCH_SIZE=10
 ```
 
